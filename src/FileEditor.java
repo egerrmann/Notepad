@@ -11,6 +11,19 @@ public class FileEditor {
     private Scanner scanner;
     private String[] data;
 
+    public FileEditor(String filename) {
+        FILENAME_ = filename;
+        file = new File(filename);
+        try {
+            scanner = new Scanner(file);
+            data = importFileData();
+            output = new java.io.FileWriter(filename);
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
     private String[] importFileData() {
         int amountOfLines = 0;
         try {
@@ -28,19 +41,6 @@ public class FileEditor {
             fileData[i] = scanner.nextLine();
         }
         return fileData;
-    }
-
-    public FileEditor(String filename) {
-        FILENAME_ = filename;
-        file = new File(filename);
-        try {
-            scanner = new Scanner(file);
-            data = importFileData();
-            output = new java.io.FileWriter(filename);
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
     }
 
     public void exportFileData(String[] strings) {
