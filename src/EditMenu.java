@@ -139,6 +139,7 @@ public class EditMenu implements ActionListener {
         int amountOfMatches = (int) matcher.results().count();
         if (amountOfMatches != 0) {
             for (int i = 0; i < amountOfMatches; i++) {
+                matcher = pattern.matcher(data);
                 matcher.find();
                 StringBuilder editedData = new StringBuilder(data);
                 editedData.delete(matcher.start(), matcher.end());
@@ -146,7 +147,8 @@ public class EditMenu implements ActionListener {
                 data = editedData.toString();
             }
             gui.textArea.setText(data);
-            gui.textArea.setCaretPosition(0);
+            gui.textArea.setSelectionStart(matcher.start());
+            gui.textArea.setSelectionEnd(matcher.start() + regexReplace.length());
         }
         else JOptionPane.showMessageDialog(new JFrame(), "No any matches", "Error", JOptionPane.INFORMATION_MESSAGE);
     }
