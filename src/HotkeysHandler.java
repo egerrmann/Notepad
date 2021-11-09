@@ -12,12 +12,13 @@ public class HotkeysHandler implements KeyListener {
     public void ctrlD() {
         int startOfLine = getStartOfCurrentLine();
         int endOfLine = getEndOfCurrentLine();
-        String lineToDuplicate = gui.textArea.getText().substring(startOfLine, endOfLine);
-        if (startOfLine == 0)
+        String lineToDuplicate = gui.textArea.getText().substring(startOfLine, endOfLine + 1);
+        if (endOfLine + 1 == gui.textArea.getText().length() && gui.textArea.getText().charAt(endOfLine) != '\n') {
             lineToDuplicate = '\n' + lineToDuplicate;
-        String newData = gui.textArea.getText().substring(0, endOfLine)
+        }
+        String newData = gui.textArea.getText().substring(0, endOfLine + 1)
                 + lineToDuplicate
-                + gui.textArea.getText().substring(endOfLine);
+                + gui.textArea.getText().substring(endOfLine + 1);
         int caretPosition = gui.textArea.getCaretPosition();
         gui.textArea.setText(newData);
         gui.textArea.setCaretPosition(caretPosition + lineToDuplicate.length());
@@ -27,7 +28,7 @@ public class HotkeysHandler implements KeyListener {
         int startOfLine = getStartOfCurrentLine();
         int endOfLine = getEndOfCurrentLine();
         String newData = gui.textArea.getText().substring(0, startOfLine)
-                + gui.textArea.getText().substring(endOfLine);
+                + gui.textArea.getText().substring(endOfLine + 1);
         gui.textArea.setText(newData);
         gui.textArea.setCaretPosition(startOfLine);
     }
@@ -43,43 +44,69 @@ public class HotkeysHandler implements KeyListener {
     }
 
     public void ctrlShiftUp() {
-        int caretPosition;
+        int caretPosition, initialCaretPosition = gui.textArea.getCaretPosition();
         int startOfCurrentLine = getStartOfCurrentLine();
         int endOfCurrentLine = getEndOfCurrentLine();
         if (startOfCurrentLine != 0) {
-            caretPosition = gui.textArea.getCaretPosition() - endOfCurrentLine + startOfCurrentLine;
+            caretPosition = startOfCurrentLine - 1;
             gui.textArea.setCaretPosition(caretPosition);
             int startOfPreviousLine = getStartOfCurrentLine();
             int endOfPreviousLine = getEndOfCurrentLine();
             String dataBeforeTwoLines = gui.textArea.getText().substring(0, startOfPreviousLine);
-            String dataOfFirstLine = gui.textArea.getText().substring(startOfPreviousLine, endOfPreviousLine);
-            String dataOfSecondLine = gui.textArea.getText().substring(startOfCurrentLine, endOfCurrentLine);
-            String dataAfterTwoLines = gui.textArea.getText().substring(endOfCurrentLine);
+            String dataOfFirstLine = gui.textArea.getText().substring(startOfPreviousLine, endOfPreviousLine + 1);
+            String dataOfSecondLine = gui.textArea.getText().substring(startOfCurrentLine, endOfCurrentLine + 1);
+            if (endOfCurrentLine + 1 == gui.textArea.getText().length()
+                    && gui.textArea.getText().charAt(endOfCurrentLine) != '\n')
+                dataOfSecondLine += '\n';
+            String dataAfterTwoLines = gui.textArea.getText().substring(endOfCurrentLine + 1);
             String data = dataBeforeTwoLines + dataOfSecondLine + dataOfFirstLine + dataAfterTwoLines;
             gui.textArea.setText(data);
-            gui.textArea.setCaretPosition(caretPosition);
+            gui.textArea.setCaretPosition(initialCaretPosition - dataOfFirstLine.length());
         }
     }
 
     public void ctrlShiftDown() {
-
+        int caretPosition, initialCaretPosition = gui.textArea.getCaretPosition();
+        int startOfCurrentLine = getStartOfCurrentLine();
+        int endOfCurrentLine = getEndOfCurrentLine();
+        if (endOfCurrentLine + 1 != gui.textArea.getText().length()) {
+            caretPosition = endOfCurrentLine + 1;
+            gui.textArea.setCaretPosition(caretPosition);
+            int startOfNextLine = getStartOfCurrentLine();
+            int endOfNextLine = getEndOfCurrentLine();
+            String dataBeforeTwoLines = gui.textArea.getText().substring(0, startOfCurrentLine);
+            String dataOfFirstLine = gui.textArea.getText().substring(startOfCurrentLine, endOfCurrentLine + 1);
+            String dataOfSecondLine = gui.textArea.getText().substring(startOfNextLine, endOfNextLine + 1);
+            if (endOfNextLine + 1 == gui.textArea.getText().length()
+                    && gui.textArea.getText().charAt(endOfNextLine) != '\n')
+                dataOfSecondLine += '\n';
+            String dataAfterTwoLines = gui.textArea.getText().substring(endOfNextLine + 1);
+            String data = dataBeforeTwoLines + dataOfSecondLine + dataOfFirstLine + dataAfterTwoLines;
+            gui.textArea.setText(data);
+            gui.textArea.setCaretPosition(initialCaretPosition + dataOfSecondLine.length());
+        }
     }
 
     public int getStartOfCurrentLine() {
         int caretPosition = gui.textArea.getCaretPosition();
-        if (caretPosition == gui.textArea.getText().length()
-                || gui.textArea.getText().charAt(caretPosition) == '\n')
+        if (caretPosition == 0) {
+            return 0;
+        }
+        else if (caretPosition == gui.textArea.getText().length()) {
             caretPosition--;
-        while (gui.textArea.getText().charAt(caretPosition) != '\n' && caretPosition != 0)
+            if (gui.textArea.getText().charAt(caretPosition) == '\n')
+                return ++caretPosition;
+        }
+        while (caretPosition != 0 && gui.textArea.getText().charAt(caretPosition - 1) != '\n')
             caretPosition--;
         return caretPosition;
     }
 
-    public int getEndOfCurrentLine() {
+    public int getEndOfCurrentLine() { // returns index of last element of line
         int caretPosition = gui.textArea.getCaretPosition();
         if (caretPosition == gui.textArea.getText().length())
             caretPosition--;
-        while (caretPosition != gui.textArea.getText().length()
+        while (caretPosition != gui.textArea.getText().length() - 1
                 && gui.textArea.getText().charAt(caretPosition) != '\n')
             caretPosition++;
         return caretPosition;
