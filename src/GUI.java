@@ -14,6 +14,8 @@ public class GUI implements ActionListener {
     FileMenu file = new FileMenu(this);
     EditMenu edit = new EditMenu(this);
 
+    HotkeysHandler hotkeysHandler = new HotkeysHandler(this);
+
     public GUI() {
         createNotepadWindow();
         createTextArea();
@@ -54,6 +56,7 @@ public class GUI implements ActionListener {
 
     public void createTextArea() {
         textArea = new JTextArea();
+        textArea.addKeyListener(hotkeysHandler);
         scrollPane = new JScrollPane(
                 textArea,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
