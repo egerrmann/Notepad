@@ -84,7 +84,7 @@ public class EditMenu implements ActionListener {
         for (int i = 0; i < cursorPosition; i++) {
             dataBeforeCursor.setCharAt(i, data.charAt(i));
         }
-        data = dataBeforeCursor.toString();*/
+        data = dataBeforeCursor.toString();*/ // not working (why???)
 
         int cursorPosition = gui.textArea.getSelectionStart();
         String data = gui.textArea.getText();
@@ -113,6 +113,7 @@ public class EditMenu implements ActionListener {
         int cursorPosition = gui.textArea.getSelectionStart();
         Pattern pattern = Pattern.compile(regexFind, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(data);
+
         if (matcher.find(cursorPosition)) {
             if (cursorPosition != matcher.start()) {
                 gui.textArea.setSelectionStart(matcher.start());
@@ -120,9 +121,11 @@ public class EditMenu implements ActionListener {
             }
             else {
                 StringBuilder editedData = new StringBuilder(data);
+
                 editedData.delete(cursorPosition, cursorPosition + regexReplace.length());
                 editedData.insert(cursorPosition, regexReplace);
                 data = editedData.toString();
+
                 gui.textArea.setText(data);
                 gui.textArea.setSelectionStart(cursorPosition);
                 gui.textArea.setSelectionEnd(cursorPosition + regexReplace.length());
@@ -137,15 +140,18 @@ public class EditMenu implements ActionListener {
         Pattern pattern = Pattern.compile(regexFind, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(data);
         int amountOfMatches = (int) matcher.results().count();
+
         if (amountOfMatches != 0) {
             for (int i = 0; i < amountOfMatches; i++) {
                 matcher = pattern.matcher(data);
                 matcher.find();
+
                 StringBuilder editedData = new StringBuilder(data);
                 editedData.delete(matcher.start(), matcher.end());
                 editedData.insert(matcher.start(), regexReplace);
                 data = editedData.toString();
             }
+
             gui.textArea.setText(data);
             gui.textArea.setSelectionStart(matcher.start());
             gui.textArea.setSelectionEnd(matcher.start() + regexReplace.length());
@@ -155,6 +161,7 @@ public class EditMenu implements ActionListener {
 
         @Override
     public void actionPerformed(ActionEvent e) {
+
         String command = e.getActionCommand();
 
         switch (command) {

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<students>
+    <student id="101">
+        <firstname>Nikolay</firstname>
+        <lastname>Lukashenko</lastname>
+        <scholarship currency="BYN">100000000</scholarship>
+    </student>
+    <student id="102">
+        <firstname>Petro</firstname>
+        <lastname>Poroshenko</lastname>
+        <scholarship currency="UAH">40</scholarship>
+    </student>
+    <student id="103">
+        <firstname>Ye</firstname>
+        <lastname>West</lastname>
+        <scholarship currency="USD">350</scholarship>
+    </student>
+</students>

@@ -26,6 +26,11 @@ public class GUI implements ActionListener {
         notepadWindow.setVisible(true);
     }
 
+    public GUI(String data) {
+        this();
+        textArea.setText(data);
+    }
+
     public void createNotepadWindow() {
         notepadWindow = new JFrame("Notepad");
 
@@ -112,6 +117,7 @@ public class GUI implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         String command = e.getActionCommand();
 
         switch (command) {
