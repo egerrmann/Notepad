@@ -159,9 +159,16 @@ public class EditMenu implements ActionListener {
         else JOptionPane.showMessageDialog(new JFrame(), "No any matches", "Error", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public void undo() {
+        gui.undoManager.undo();
+    }
+
+    public void redo() {
+        gui.undoManager.redo();
+    }
+
         @Override
     public void actionPerformed(ActionEvent e) {
-
         String command = e.getActionCommand();
 
         switch (command) {

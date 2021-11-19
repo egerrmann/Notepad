@@ -12,7 +12,6 @@ public class SaxXmlParser {
         SAXParserFactory factory = SAXParserFactory.newInstance();
 
         try {
-
             SAXParser saxParser = factory.newSAXParser();
 
             PrintSaxHandler handler = new PrintSaxHandler();

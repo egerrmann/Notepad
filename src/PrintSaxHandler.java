@@ -20,7 +20,6 @@ public class PrintSaxHandler extends DefaultHandler {
                              String localName,
                              String qName,
                              Attributes attributes) {
-
         currentValue.setLength(0);
 
         System.out.printf("Start element: %s%n", qName);
@@ -40,7 +39,6 @@ public class PrintSaxHandler extends DefaultHandler {
     public void endElement(String uri,
                            String localName,
                            String qName) {
-
         System.out.printf("End Element: %s%n", qName);
 
         if (qName.equalsIgnoreCase("firstname")) {

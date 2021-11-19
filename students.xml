@@ -13,6 +13,6 @@
     <student id="103">
         <firstname>Ye</firstname>
         <lastname>West</lastname>
-        <scholarship currency="USD">350</scholarship>
+        <scholarship currency="USD">300</scholarship>
     </student>
 </students>

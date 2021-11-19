@@ -4,9 +4,13 @@ import java.awt.event.KeyListener;
 
 public class HotkeysHandler implements KeyListener {
     GUI gui;
+    FileMenu fileMenu;
+    EditMenu editMenu;
 
     public HotkeysHandler(GUI gui) {
         this.gui = gui;
+        fileMenu = new FileMenu(gui);
+        editMenu = new EditMenu(gui);
     }
 
     public void ctrlD() {
@@ -119,23 +123,58 @@ public class HotkeysHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        // Ctrl+D - duplicate line
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_D)
             ctrlD();
 
+        // Ctrl+X - delete line
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_X)
             ctrlX();
 
+        // Ctrl+UpArrow - move scroll bar
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_UP)
             ctrlUp();
 
+        // Ctrl+DownArrow - move scroll bar
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_DOWN)
             ctrlDown();
 
+        // Ctrl+Shift+UpArrow - swap lines
         if (e.isControlDown() && e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_UP)
             ctrlShiftUp();
 
+        // Ctrl+Shift+DownArrow - swap lines
         if (e.isControlDown() && e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_DOWN)
             ctrlShiftDown();
+
+        // Ctrl+N - new file
+        if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_N)
+            fileMenu.newFile();
+
+        // Ctrl+S - save file
+        if (e.isControlDown() && !e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_S)
+            fileMenu.save();
+
+        // Ctrl+Shift+S - save file as
+        if (e.isControlDown() && e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_S)
+            fileMenu.saveAs();
+
+        // Ctrl+O - open file
+        if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_O)
+            fileMenu.open();
+
+        // Ctrl+F, Ctrl+R - find and replace
+        if ((e.isControlDown() && e.getKeyCode() == KeyEvent.VK_F)
+                || (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_R))
+            gui.edit.findAndReplace();
+
+        // Ctrl+Z - undo
+        if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_Z)
+            gui.edit.undo();
+
+        // Ctrl+Y - redo
+        if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_Y)
+            gui.edit.redo();
     }
 
     @Override
